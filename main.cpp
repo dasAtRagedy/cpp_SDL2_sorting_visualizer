@@ -4,10 +4,17 @@
 #include <algorithm>
 
 #define n 100 // number of elements to be sorted
+#define scale 5 // scale of elements on screen
+#define delay 0 // delay between every comparison
 
 void draw_state(std::vector<int>& v, SDL_Renderer* renderer, unsigned int a, unsigned int b){
     for(int i = 0; i < n; i++){
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        if (i == a)
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        else if(i == b)
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+        else
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderDrawLine(renderer, i, 99, i, v[i]);
     }
 }
@@ -23,10 +30,8 @@ int main(int argc, char* args[]) {
 
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
-    SDL_CreateWindowAndRenderer(
-                                200, 200, 0,
-                                &window, &renderer);
-    SDL_RenderSetScale(renderer, 2, 2);
+    SDL_CreateWindowAndRenderer(scale*n, scale*n, 0, &window, &renderer);
+    SDL_RenderSetScale(renderer, scale, scale);
 
     // Sorting algorithm - bubble sort
     for(int i = 0; i < n - 1; i++){
@@ -37,13 +42,8 @@ int main(int argc, char* args[]) {
             SDL_RenderClear(renderer);
             draw_state(v, renderer, i, j);
             SDL_RenderPresent(renderer);
-            SDL_Delay(10);
+            SDL_Delay(delay);
         }
-    }
-
-    // print result
-    for(int i : v){
-       std::cout<<i<<' ';
     }
 
     return 0;
