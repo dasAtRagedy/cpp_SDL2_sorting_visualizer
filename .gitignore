@@ -34,3 +34,4 @@
 # CLion directories
 cmake-build-debug/
 .idea/
+additional_libraries/
